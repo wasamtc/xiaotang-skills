@@ -1,0 +1,4 @@
+interface:
+  display_name: "文章翻译"
+  short_description: "将文章或网页翻译为中文 Markdown，保留图片并在术语首次出现时附中英对照"
+  default_prompt: "Use $translate to translate this source article into Chinese Markdown, preserve images where possible, keep key terms bilingual on first mention, and add the author/source/AI note at the top."

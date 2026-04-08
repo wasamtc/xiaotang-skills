@@ -1,0 +1,43 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(which conda && conda info --envs 2>/dev/null | head -20)",
+      "Bash(python3 -c \"import torch; print\\(torch.__version__, torch.version.debug\\)\" 2>&1 || echo \"PyTorch not installed\")",
+      "Read(//share_data/tangcong/**)",
+      "Bash(wget -q https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh)",
+      "Bash(bash miniconda.sh -b -p /share_data/tangcong/miniconda3)",
+      "Bash(rm miniconda.sh)",
+      "Bash(eval \"$\\(/share_data/tangcong/miniconda3/bin/conda shell.bash hook\\)\" && conda activate torch_dev && clang --version 2>&1 | head -1 && gcc --version 2>&1 | head -1)",
+      "Bash(conda --version)",
+      "Read(//opt/**)",
+      "Read(//softhome/tangcong/**)",
+      "Bash(echo $SHELL)",
+      "Bash(/share_data/tangcong/miniconda3/bin/conda init:*)",
+      "Bash(git -C /share_data/tangcong/project/torch_sipu branch --show-current)",
+      "Bash(/usr/bin/ssh -V)",
+      "Bash(git --version)",
+      "Bash(echo \"OpenSSL version mismatch\" 来自哪里？用 strace 看一下实际调用: GIT_SSH_COMMAND=\"/usr/bin/ssh\" GIT_TRACE=1 git ls-remote git@gitlabsoft.siorigin.com:oplib/sikernel.git)",
+      "Bash(GIT_SSH_COMMAND=\"/usr/bin/ssh\" GIT_TRACE=1 git ls-remote git@gitlabsoft.siorigin.com:oplib/sikernel.git)",
+      "Bash(echo $LD_LIBRARY_PATH)",
+      "Bash(GIT_SSH_COMMAND=\"/usr/bin/ssh\" git submodule update --init --recursive)",
+      "WebFetch(domain:zhuanlan.zhihu.com)",
+      "Bash(curl -s -L -o /tmp/zhihu_article.html -H \"User-Agent: Mozilla/5.0 \\(X11; Linux x86_64\\) AppleWebKit/537.36 \\(KHTML, like Gecko\\) Chrome/120.0.0.0 Safari/537.36\" -H \"Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8\" -H \"Accept-Language: zh-CN,zh;q=0.9,en;q=0.8\" -H \"Referer: https://www.zhihu.com/\" \"https://zhuanlan.zhihu.com/p/2016838419897165137\")",
+      "Read(//tmp/**)",
+      "Bash(curl -s -L -o /tmp/zhihu_api.json \\\\\n  -H \"User-Agent: Mozilla/5.0 \\(X11; Linux x86_64\\) AppleWebKit/537.36 \\(KHTML, like Gecko\\) Chrome/120.0.0.0 Safari/537.36\" \\\\\n  -H \"Accept: application/json\" \\\\\n  \"https://www.zhihu.com/api/v4/articles/2016838419897165137\" && head -c 3000 /tmp/zhihu_api.json)",
+      "Bash(pip list 2>/dev/null | grep -iE \"selenium|playwright\")",
+      "Bash(pip install selenium -q 2>&1 | tail -3)",
+      "Bash(python3 << 'PYEOF'\nfrom selenium import webdriver\nfrom selenium.webdriver.chrome.options import Options\nfrom selenium.webdriver.common.by import By\nfrom selenium.webdriver.support.ui import WebDriverWait\nfrom selenium.webdriver.support import expected_conditions as EC\nimport time, json\n\noptions = Options\\(\\)\noptions.add_argument\\('--headless'\\)\noptions.add_argument\\('--no-sandbox'\\)\noptions.add_argument\\('--disable-dev-shm-usage'\\)\noptions.add_argument\\('--disable-gpu'\\)\noptions.add_argument\\('user-agent=Mozilla/5.0 \\(X11; Linux x86_64\\) AppleWebKit/537.36 \\(KHTML, like Gecko\\) Chrome/120.0.0.0 Safari/537.36'\\)\n\ndriver = webdriver.Chrome\\(options=options\\)\ndriver.get\\(\"https://zhuanlan.zhihu.com/p/2016838419897165137\"\\)\ntime.sleep\\(5\\)\n\n# Get the article content\ntry:\n    # Wait for article content to load\n    WebDriverWait\\(driver, 15\\).until\\(\n        EC.presence_of_element_located\\(\\(By.CSS_SELECTOR, \".Post-RichTextContainer, .RichText, article\"\\)\\)\n    \\)\n    time.sleep\\(2\\)\n    \n    # Get title\n    try:\n        title = driver.find_element\\(By.CSS_SELECTOR, \".Post-Title, h1.Post-Title\"\\).text\n    except:\n        title = driver.title\n    \n    # Get article HTML\n    try:\n        article = driver.find_element\\(By.CSS_SELECTOR, \".Post-RichTextContainer .RichText, .RichText.ztext.Post-RichText\"\\)\n        html_content = article.get_attribute\\('innerHTML'\\)\n    except:\n        article = driver.find_element\\(By.CSS_SELECTOR, \"article, .Post-RichTextContainer\"\\)\n        html_content = article.get_attribute\\('innerHTML'\\)\n    \n    print\\(f\"TITLE: {title}\"\\)\n    print\\(\"---HTML_START---\"\\)\n    print\\(html_content\\)\n    print\\(\"---HTML_END---\"\\)\nexcept Exception as e:\n    print\\(f\"ERROR: {e}\"\\)\n    print\\(\"PAGE SOURCE \\(first 5000 chars\\):\"\\)\n    print\\(driver.page_source[:5000]\\)\n\ndriver.quit\\(\\)\nPYEOF)",
+      "WebFetch(domain:webcache.googleusercontent.com)",
+      "WebFetch(domain:archive.org)",
+      "WebSearch",
+      "Bash(find /share_data/tangcong -path \"*/include/*\" -name \"*.h\" 2>/dev/null | xargs grep -l \"tabs\" 2>/dev/null | head -5)",
+      "Bash(echo \"SIKERNEL_ROOT=$SIKERNEL_ROOT\" && echo \"SI_SDK_ROOT=$SI_SDK_ROOT\")",
+      "Bash(grep -r \"SIRT\\\\|swemusp\\\\|environment.*shim\" /share_data/tangcong/project/torch_sipu --include=\"*.md\" --include=\"*.cpp\" --include=\"*.h\" --include=\"*.py\" 2>/dev/null | head -30)",
+      "Bash(grep -r \"SIRT_LOG_LEVEL\\\\|printf\\\\|dprintf\" /share_data/tangcong/project/torch_sipu --include=\"*.md\" 2>/dev/null | head -20)",
+      "Bash(grep -r \"KERNEL_DBG\\\\|DEBUG_PRINT\" /share_data/tangcong/project/torch_sipu --include=\"*.cpp\" --include=\"*.h\" --include=\"*.su\" --include=\"*.suh\" 2>/dev/null | head -20)",
+      "Bash(grep -r \"namespace sipu\\\\|printf\" /share_data/tangcong/project/torch_sipu/third_party/sikernel/include/ --include=\"*.h\" --include=\"*.hpp\" 2>/dev/null | head -40)",
+      "Bash(grep -r \"sipu::printf\\\\|void printf\" /share_data/tangcong/project/torch_sipu --include=\"*.h\" --include=\"*.hpp\" --include=\"*.cpp\" 2>/dev/null | grep -v \"//.*//\" | grep -v \"^Binary\" | head -30)",
+      "Bash(find /share_data/tangcong/project/torch_sipu -name \"sipu_runtime.h\" -o -name \"sipu.h\" -o -name \"sipu_runtime*\" 2>/dev/null | head -10)"
+    ]
+  }
+}

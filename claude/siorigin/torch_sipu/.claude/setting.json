@@ -1,0 +1,7 @@
+{
+    "env": {
+        "ANTHROPIC_BASE_URL": "http://cc.siorigin.com",
+        "ANTHROPIC_AUTH_TOKEN": "sk-40d08e5637c9687cfc3eaf7362cadd358f2fb581a36368d5d650931b8eec8c66",
+        "CLAUDE_CODE_ATTRIBUTION_HEADER": "0"
+    }
+}

@@ -1,0 +1,4 @@
+interface:
+  display_name: "论文盲审审阅"
+  short_description: "按盲审规则审阅学位论文，输出结论、问题清单和修改建议"
+  default_prompt: "Use $thesis-blind-review to blind-review the actual thesis materials in this repository, excluding the format-reference PDF, and write the final report to results/."
